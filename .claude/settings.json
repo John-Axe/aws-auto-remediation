@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(checkov*)",
+      "Bash(~/.local/bin/checkov*)",
+      "Bash(python3 -m checkov*)",
+      "Bash(terraform validate*)",
+      "Bash(terraform fmt -check*)",
+      "Bash(pip show*)",
+      "Bash(pip3 show*)",
+      "Bash(pip index*)",
+      "Bash(apt list --installed*)"
+    ]
+  }
+}

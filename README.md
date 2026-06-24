@@ -1,6 +1,8 @@
 # AWS Auto-Remediation
 
 ![CI](https://github.com/John-Axe/aws-auto-remediation/actions/workflows/ci.yml/badge.svg)
+![CodeQL](https://github.com/John-Axe/aws-auto-remediation/actions/workflows/codeql.yml/badge.svg)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/John-Axe/aws-auto-remediation/badge)](https://scorecard.dev/viewer/?uri=github.com/John-Axe/aws-auto-remediation)
 
 A serverless, Terraform-defined system that watches CloudTrail for common AWS
 misconfigurations and fixes them automatically, in seconds — before they sit
@@ -176,3 +178,13 @@ GitHub Actions runs on every push/PR:
 - `pytest` (with moto) against `src/`
 
 `terraform apply` never runs in CI.
+
+## Security
+
+This repo's supply chain and CI are hardened beyond the application logic itself:
+
+- **[CodeQL](https://github.com/John-Axe/aws-auto-remediation/security/code-scanning)** static analysis runs on every push, every PR, and weekly, with results in the Security tab.
+- **[OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/John-Axe/aws-auto-remediation)** scores the repo's supply-chain posture on every push to `main` and weekly, with results in the Security tab and the badge above.
+- **[gitleaks](https://github.com/gitleaks/gitleaks)** runs as an independent secret-scanning check on every push, PR, and daily on schedule.
+- **[Dependabot](https://github.com/John-Axe/aws-auto-remediation/network/updates)** keeps Python dependencies and GitHub Actions up to date on a weekly schedule.
+- Every workflow pins third-party Actions to a full commit SHA (not a floating tag), declares an explicit least-privilege `permissions:` block (default `contents: read`, with extra scopes granted only to the job that needs them), and cancels superseded runs via a `concurrency` group.
