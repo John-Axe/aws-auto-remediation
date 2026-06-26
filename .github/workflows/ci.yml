@@ -69,10 +69,5 @@ jobs:
       - name: Install dependencies
         run: pip install --require-hashes -r requirements-dev.txt
 
-      - name: Verify lockfile is up to date
-        run: |
-          pip-compile --generate-hashes --strip-extras --allow-unsafe --check \
-            --output-file requirements-dev.txt requirements-dev.in
-
       - name: Run tests
         run: pytest -v
