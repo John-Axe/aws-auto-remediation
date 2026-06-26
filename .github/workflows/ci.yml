@@ -69,5 +69,14 @@ jobs:
       - name: Install dependencies
         run: pip install --require-hashes -r requirements-dev.txt
 
+      - name: Verify lockfile is up to date
+        run: |
+          pip-compile --generate-hashes --strip-extras --allow-unsafe \
+            --output-file requirements-dev.txt requirements-dev.in
+          git diff --exit-code requirements-dev.txt || {
+            echo "::error::Lockfile is out of date — run the pip-compile workflow to regenerate."
+            exit 1
+          }
+
       - name: Run tests
         run: pytest -v
