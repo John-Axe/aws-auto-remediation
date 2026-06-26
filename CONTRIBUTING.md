@@ -38,8 +38,10 @@ pytest -v
 
 ## Updating dependencies
 
-Edit `requirements-dev.in`, then regenerate the lockfile:
+Edit `requirements-dev.in`, then regenerate the lockfile. **Must use Python 3.12**
+to match CI and the Dependabot auto-regeneration workflow:
 
 ```bash
-pip-compile --generate-hashes requirements-dev.in -o requirements-dev.txt
+python3.12 -m piptools compile --generate-hashes --strip-extras \
+  --output-file requirements-dev.txt requirements-dev.in
 ```
