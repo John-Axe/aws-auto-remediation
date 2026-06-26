@@ -42,6 +42,6 @@ Edit `requirements-dev.in`, then regenerate the lockfile. **Must use Python 3.12
 to match CI and the Dependabot auto-regeneration workflow:
 
 ```bash
-python3.12 -m piptools compile --generate-hashes --strip-extras \
+python3.12 -m piptools compile --generate-hashes --strip-extras --allow-unsafe \
   --output-file requirements-dev.txt requirements-dev.in
 ```

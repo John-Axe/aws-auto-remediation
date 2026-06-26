@@ -42,7 +42,7 @@ jobs:
 
       - name: Regenerate lockfile
         run: |
-          pip-compile --generate-hashes --strip-extras \
+          pip-compile --generate-hashes --strip-extras --allow-unsafe \
             --output-file requirements-dev.txt requirements-dev.in
 
       - name: Commit updated lockfile
