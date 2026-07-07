@@ -49,8 +49,34 @@ automatically.
 ```
 terraform/   EventBridge rules, Lambda, IAM role, SNS topic, KMS key
 src/         Lambda source: handler.py dispatches to one module per finding
+demo/        asciinema recording + a LocalStack demo harness (see below)
 tests/       pytest + moto unit tests, one module to one test file
 .github/     CI workflow: terraform fmt/validate, checkov, pytest
+```
+
+## Findings emission
+
+Every remediation logs a structured `remediation_complete` line to
+CloudWatch Logs. When the event represents an actual misconfiguration
+(not `compliant` or `error`), that line also nests a `shared_finding` dict
+matching the ecosystem-wide [`finding-schema`](../finding-schema) shape —
+`category="cloud-misconfig"`, severity assigned per finding type
+(`s3_public_bucket`→critical, `sg_open_ingress`→high, `ebs_unencrypted`→medium),
+and a real MITRE ATT&CK mapping only where one honestly applies
+(`s3_public_bucket`→`T1530`, left empty for the other two). See
+`src/utils/shared_finding.py`. This is a zero-new-dependency dict mapper, not
+a `finding-schema`/pydantic import — this repo's Lambda packaging zips `src/`
+directly with no pip-install step.
+
+For a local, LocalStack-backed demo that writes `findings.jsonl` at the repo
+root (picked up by the observability stack's existing Promtail glob), see
+[`demo/localstack_demo.py`](demo/localstack_demo.py):
+
+```bash
+cd ../observability-stack && docker compose up -d localstack
+cd ../aws-auto-remediation
+pip install -r requirements-dev.txt
+python demo/localstack_demo.py
 ```
 
 ## Dry run mode
@@ -178,6 +204,32 @@ GitHub Actions runs on every push/PR:
 - `pytest` (with moto) against `src/`
 
 `terraform apply` never runs in CI.
+
+## Demo
+
+This deploys real AWS infrastructure to demo live, so instead of touching a
+real account for this recording, here's a real, captured run of the full
+`moto`-mocked test suite — every remediation module (S3 public-bucket lockdown,
+security-group ingress revocation, EBS unencrypted-volume tagging) exercised
+against fake-but-realistic AWS API responses, no real account or credentials
+involved:
+
+```
+tests/test_s3_remediation.py::test_remediates_public_acl_bucket   PASSED [ 47%]
+tests/test_s3_remediation.py::test_compliant_bucket_is_noop       PASSED [ 58%]
+tests/test_security_group_remediation.py::test_revokes_open_ssh_ingress PASSED [ 76%]
+tests/test_ebs_remediation.py::test_tags_unencrypted_volume_and_alerts  PASSED [  5%]
+
+======================== 17 passed in 146.23s ========================
+```
+
+Full asciinema recording checked in at [`demo/session.cast`](demo/session.cast)
+— plays back locally, no upload, no third-party service:
+
+```bash
+pip install asciinema
+asciinema play demo/session.cast
+```
 
 ## Security
 

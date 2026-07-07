@@ -3,6 +3,7 @@ import logging
 import os
 
 from remediations import ebs_unencrypted, s3_public, security_group
+from utils.shared_finding import to_shared_finding
 
 logger = logging.getLogger()
 logger.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
@@ -36,5 +37,9 @@ def handler(event, context):
         return {"status": "ignored", "event_source": event_source, "event_name": event_name}
 
     result = module.remediate(detail, dry_run=dry_run)
-    _log(logging.INFO, "remediation_complete", **result)
+    shared_finding = to_shared_finding(result)
+    if shared_finding:
+        _log(logging.INFO, "remediation_complete", shared_finding=shared_finding, **result)
+    else:
+        _log(logging.INFO, "remediation_complete", **result)
     return result
