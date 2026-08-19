@@ -4,15 +4,15 @@
 #
 #    pip-compile --allow-unsafe --generate-hashes --output-file=requirements-dev.txt --strip-extras requirements-dev.in
 #
-boto3==1.43.36 \
-    --hash=sha256:42942dde254673abcbc9e6e60017c88341a4f49d99d24e1f2e290fb38138c26f \
-    --hash=sha256:587d7ee92a12e440ad12b0e7f11f3358f0c4d65b19f64726efc94aaf194aff28
+boto3==1.43.72 \
+    --hash=sha256:6280ce03cc85e9110fd9fb7e2fbf11eae0b1177cb041a0d69aa88edc9d178cf9 \
+    --hash=sha256:f1bbbad5ed8d8a8c64edb0cd092dc443c95a85623b2ac88b6f6d633717605f00
     # via
     #   -r requirements-dev.in
     #   moto
-botocore==1.43.36 \
-    --hash=sha256:3c65fdc39ed01d8dfde1e961b34038aed03c459f8ddf80717a12ac006475e49d \
-    --hash=sha256:4cae47d1b2d426316b85a0087d9e69e048f13bc003b5177d74639fe9dfd28205
+botocore==1.43.74 \
+    --hash=sha256:5793d9170b2b9f3194fb6f667feed8986eb81f767528d52ceaf45df2242d56e9 \
+    --hash=sha256:b127b24d49532b5d7b0851b4abb3d3b99f58a121f87f07c23dac7c4d88b25c72
     # via
     #   boto3
     #   moto
