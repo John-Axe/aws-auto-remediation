@@ -399,9 +399,9 @@ markupsafe==3.0.3 \
     --hash=sha256:f9e130248f4462aaa8e2552d547f36ddadbeaa573879158d721bbd33dfe4743a \
     --hash=sha256:fed51ac40f757d41b7c48425901843666a6677e3e8eb0abcff09e4ba6e664f50
     # via werkzeug
-moto==5.2.2 \
-    --hash=sha256:3817f1e39721ca833579b921e53e3b68547ace6a34d848c9486fbb5905808de9 \
-    --hash=sha256:aac8023a429e125e91c91f8f4730a67b54f518cda587352f7e67252fe3168f75
+moto==5.2.3 \
+    --hash=sha256:5ec31b3cdbb383a19d46030157bd82aaaa7a9cc5f564200f995663d347bd4728 \
+    --hash=sha256:a9e95c3218b6eda18e74571f1ced11cb1bc3151467d562c1da6037b9d19832cb
     # via -r requirements-dev.in
 packaging==26.2 \
     --hash=sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e \
